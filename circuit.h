@@ -19,9 +19,11 @@ public:
 
     std::vector <Element*> FindElements(int first_node, int second_node);
 
+//    int GetNumberElements();
+
     int GetNumberNodes();
 
-    int GetNumberVoltage()
+    int GetNumberVoltage();
 
     // Nodal analysis
 

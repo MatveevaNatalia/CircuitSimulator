@@ -17,8 +17,8 @@ using namespace arma;
 //         for(j)
 //             matrix(i,j) = GetNodalMatrix(i,j, frequency)
 //
-//    for(i)
 
+//    for(i)
 //  It must return the vector of voltage
 //}
 
@@ -104,6 +104,8 @@ int main(int argc, char *argv[])
 //     }
 
 
+//   Number of PushBack should be equal to the number of elements in the matrix to keep
+//    its shape.
      std::vector<std::vector<std::vector<Element*>>> ElementsBetween;
      for(int i = 0; i < number; i++)
      {
@@ -112,10 +114,17 @@ int main(int argc, char *argv[])
          for(int j = 0; j < number; j++)
              row.push_back(my_circ->FindElements(i,j));
 
-         ElementsBetween.push_back(row);
+         ElementsBetween.push_back(row); // Why not  ElementsBetween->push_back(row); ?
      }
 
-
+    std::cout << "Test:" << std::endl;
+//    ElementsBetween[1][1][0]->Print();
+    ElementsBetween[1][0][0]->Print();
+//    ElementsBetween[1][1][0]->Print();
+//    std::cout << ElementsBetween[1][1].size() << std::endl;
+    std::cout << ElementsBetween[1][0].size() << std::endl;
+//    std::cout << ElementsBetween[1][0].size() << std::endl;
+//    std::cout << ElementsBetween[1][1].size() << std::endl;
 
 /*    cx_mat G(number, number);
     for(int i = 0; i < number; i++){

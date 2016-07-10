@@ -1,5 +1,6 @@
 #include "elements.h"
-
+//#include <iostream>
+//#include <complex>
 
 Resistor::Resistor(double number_resist, int number1, int number2)
 {
@@ -31,7 +32,7 @@ bool Resistor::IsVoltage()
     return 0;
 }
 
-complex<float> Resistor::GetInverseImpedance(float frequency)
+std::complex<float> Resistor::GetInverseImpedance(float frequency)
 {
     return (1/resistance,0);
 }
@@ -67,9 +68,9 @@ bool EMF::IsVoltage()
     return 1;
 }
 
-complex<float> EMF::GetInverseImpedance(float frequency)
+std::complex<float> EMF::GetInverseImpedance(float frequency)
 {
-    return (0,0)
+    return (0,0);
 }
 
 
@@ -101,7 +102,7 @@ bool Capacitor::IsVoltage()
     return 0;
 }
 
-complex<float> Capacitor::GetInverseImpedance(float frequency)
+std::complex<float> Capacitor::GetInverseImpedance(float frequency)
 {
     return (0,frequency*conductance);
 }
@@ -137,7 +138,7 @@ bool Inductor::IsVoltage()
     return 0;
 }
 
-complex<float> GetInverseImpedance(float frequency)
+std::complex<float> Inductor::GetInverseImpedance(float frequency)
 {
     return (0,1.0/(frequency*inductance));
 }

@@ -1,8 +1,9 @@
+#ifndef ELEMENTS_H
+#define ELEMENTS_H
+
 #include <iostream>
 #include <vector>
 #include <armadillo>
-#ifndef ELEMENTS_H
-#define ELEMENTS_H
 
 #include <complex>
 
@@ -24,7 +25,7 @@ public:
 
     virtual bool IsVoltage() = 0;
 
-//    virtual complex<float> GetInverseImpedance(float frequency) = 0;
+    virtual std::complex<float> GetInverseImpedance(float frequency) = 0;
 
 
     // GetFirstNode() and GetSecondNode() are exactly the same for all elements.
@@ -53,7 +54,7 @@ public:
 
      virtual bool IsVoltage();
 
-//     virtual complex<float> GetInverseImpedance(float frequency);
+     virtual std::complex<float> GetInverseImpedance(float frequency);
 };
 
 class EMF : public Element {
@@ -65,7 +66,7 @@ public:
     virtual int GetFirstNode();
     virtual int GetSecondNode();
     virtual bool IsVoltage();
-//    virtual complex<float> GetInverseImpedance(float frequency);
+    virtual std::complex<float> GetInverseImpedance(float frequency);
 };
 
 class Capacitor : public Element {
@@ -78,13 +79,11 @@ public:
     virtual int GetSecondNode();
     virtual bool IsVoltage();
 
-//    virtual complex<float> GetInverseImpedance(float frequency){
-//        return (0,frequency*conductance);
-//    }
-
+    virtual std::complex<float> GetInverseImpedance(float frequency);
 };
 
-class Inductor : public Element {
+class Inductor : public Element
+{
     int node1, node2;
     double inductance;
 public:
@@ -95,9 +94,8 @@ public:
     virtual int GetSecondNode();
     virtual bool IsVoltage();
 
-//    virtual complex<float> GetInverseImpedance(float frequency){
-//        return (0,1/(frequency*inductance));
-//    }
+    virtual std::complex<float> GetInverseImpedance(float frequency);
+
 };
 
 

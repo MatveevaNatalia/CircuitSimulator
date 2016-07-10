@@ -18,6 +18,7 @@ void Circuit::AddElement(Element* new_element)
 
 std::vector <Element*> Circuit::FindElements(int first_node, int second_node)
 {
+    //Element* zero_elem = NULL;
     std::vector<Element *> found_elements;
     int node1_temp, node2_temp;
     for(int i = 0; i < elements.size(); i++)
@@ -27,10 +28,21 @@ std::vector <Element*> Circuit::FindElements(int first_node, int second_node)
 
         if( node1_temp == first_node && node2_temp == second_node)
             found_elements.push_back(elements[i]);
+        if ( node2_temp == first_node && node1_temp == second_node)
+                    found_elements.push_back(elements[i]);
+/*        else if( node2_temp == first_node && node1_temp == second_node)
+            found_elements.push_back(elements[i]);
+        else
+            found_elements.push_back(NULL);*/
 
     }
     return found_elements;
 }
+
+/*int Circuit::GetNumberElements()
+{
+    return elements.size();
+}*/
 
 int Circuit::GetNumberNodes()
 {
@@ -53,7 +65,7 @@ int Circuit::GetNumberVoltage()
     int voltagenumber = 0;
     for(int i = 0; i < elements.size(); i++)
     {
-        if (elements[i]->IsVoltage() == True)
+        if (elements[i]->IsVoltage() == true)
             voltagenumber++;
     }
     return voltagenumber;
