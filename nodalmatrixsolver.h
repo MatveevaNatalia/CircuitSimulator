@@ -8,12 +8,14 @@ class NodalMatrixSolver
 {
 public:
     NodalMatrixSolver(Circuit & my_circ);
-    arma::cx_mat constructA(int nodesnumber);
     void PrintElementsBetween(int nodesnumber);
+    arma::cx_mat constructA(int nodesnumber);
+    arma::cx_mat constructB(Circuit & my_circ);
+
 protected:
     std::vector<std::vector<std::vector<Element*>>> ElementsBetween;
 
-    arma::cx_mat constructB();
+
     arma::cx_mat constructD();
     arma::cx_vec constructRHS();
 

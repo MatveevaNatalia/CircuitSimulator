@@ -19,6 +19,8 @@ public:
 
     std::vector <Element*> FindElements(int first_node, int second_node);
 
+    std::vector <Element*> FindVoltages();
+
 //    int GetNumberElements();
 
     int GetNumberNodes();

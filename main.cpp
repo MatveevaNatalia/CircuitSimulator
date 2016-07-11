@@ -28,16 +28,18 @@ int main(int argc, char *argv[])
 {
 
     int number_nodes; // number of nodes
-
+    int number_voltages;
 
     Element * e1 = new Resistor(0.1, 0, 1);
     Element * e2 = new Capacitor(10, 1, 2);
     Element * e3 = new EMF(5, 1, 0); // The plus is connected to the first node
     Element * e4 = new Inductor(8, 0, 2);
+    Element * e5 = new EMF(7, 2, 0);
+
     float frequency = 0.5;
 
 //--------------------------------------------------------//
-    std::vector <Element*> elements= {e1, e2, e3, e4};
+    std::vector <Element*> elements= {e1, e2, e3, e4, e5};
 
     Circuit* my_circ = new Circuit();
 
@@ -49,7 +51,7 @@ int main(int argc, char *argv[])
 //    my_circ->Print();
 
     number_nodes = my_circ->GetNumberNodes();
-
+    number_voltages = my_circ->GetNumberVoltage();
 
 
     NodalMatrixSolver *my_solver = new NodalMatrixSolver(*my_circ);
@@ -64,6 +66,17 @@ int main(int argc, char *argv[])
             std::cout << A(i,j) << " ";
         std::cout << std::endl;
     }
+
+/*    arma::cx_mat B(number_nodes, number_voltages);
+    B = my_solver->constructB(*my_circ);
+
+    for(int i = 0; i < number_nodes; i++)
+    {
+        for(int j = 0; j < number_voltages; j++)
+            std::cout << B(i,j) << " ";
+        std::cout << std::endl;
+    }*/
+
 
 /*    arma::cx_mat A(number_nodes, number_nodes);
 

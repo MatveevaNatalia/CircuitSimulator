@@ -39,6 +39,18 @@ std::vector <Element*> Circuit::FindElements(int first_node, int second_node)
     return found_elements;
 }
 
+std::vector <Element*> Circuit::FindVoltages()
+{
+    std::vector <Element*> VoltageList;
+    for(int i = 0; i < elements.size(); i++)
+    {
+        if (elements[i]->IsVoltage() == true)
+            VoltageList.push_back(elements[i]);
+    }
+    return VoltageList;
+}
+
+
 /*int Circuit::GetNumberElements()
 {
     return elements.size();

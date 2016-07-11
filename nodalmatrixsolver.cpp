@@ -57,7 +57,7 @@ arma::cx_mat NodalMatrixSolver::constructA(int nodesnumber)
 
                 if(i != j)
                 {
-                    ElementsBetween[1][2][0]->Print();
+                    //ElementsBetween[1][2][0]->Print();
                     elementsnumber = ElementsBetween[i][j].size();
 
                     for(int k = 0; k < elementsnumber; k++)
@@ -72,3 +72,67 @@ arma::cx_mat NodalMatrixSolver::constructA(int nodesnumber)
     }
     return A;
 }
+
+arma::cx_mat constructB(Circuit & my_circ)
+{
+    int nodesnumber = my_circ.GetNumberNodes();
+    int voltagenumber = my_circ.GetNumberVoltage();
+    arma::cx_mat B(nodesnumber,voltagenumber, arma::fill::zeros);
+
+    std::vector<Element*> Voltages;
+
+    Voltages = my_circ.FindVoltages();
+
+    int first_node, second_node;
+
+    for(int i = 1; i <= nodesnumber; i++)
+    {
+        for(int j = 0; j < voltagenumber; j++)
+        {
+            first_node = Voltages[j]->GetFirstNode();
+            second_node = Voltages[j]->GetSecondNode();
+            if(i == first_node)
+            {
+                B(i-1,j) = 1;
+            }
+            else if (i == second_node)
+            {
+                B(i-1, j) = -1;
+            }
+            else
+            {
+                B(i-1,j) = 0;
+            }
+        }
+    }
+
+    return B;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
