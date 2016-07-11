@@ -2,7 +2,7 @@
 //#include <iostream>
 //#include <complex>
 
-Resistor::Resistor(double number_resist, int number1, int number2)
+Resistor::Resistor(float number_resist, int number1, int number2)
 {
     node1 = number1;
     node2 = number2;
@@ -34,7 +34,8 @@ bool Resistor::IsVoltage()
 
 std::complex<float> Resistor::GetInverseImpedance(float frequency)
 {
-    return (1/resistance,0);
+    std::complex<float> inv_imped (1/resistance, 0);
+    return  inv_imped;
 }
 
 
@@ -70,7 +71,8 @@ bool EMF::IsVoltage()
 
 std::complex<float> EMF::GetInverseImpedance(float frequency)
 {
-    return (0,0);
+    std::complex<float> inv_imped(0,0);
+    return inv_imped;
 }
 
 
@@ -104,7 +106,8 @@ bool Capacitor::IsVoltage()
 
 std::complex<float> Capacitor::GetInverseImpedance(float frequency)
 {
-    return (0,frequency*conductance);
+    std::complex<float> inv_imped(0,frequency*conductance);
+    return inv_imped;
 }
 
 
@@ -140,6 +143,7 @@ bool Inductor::IsVoltage()
 
 std::complex<float> Inductor::GetInverseImpedance(float frequency)
 {
-    return (0,1.0/(frequency*inductance));
+    std::complex<float> inv_imped(0,1.0/(frequency*inductance));
+    return inv_imped;
 }
 

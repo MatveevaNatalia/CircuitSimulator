@@ -5,6 +5,8 @@
 
 #include "circuit.h"
 #include "elements.h"
+#include "nodalmatrixsolver.h"
+#include "elementfactory.h"
 
 //using namespace std;
 using namespace arma;
@@ -25,7 +27,7 @@ using namespace arma;
 int main(int argc, char *argv[])
 {
 
-    int number = 3;
+    int number_nodes; // number of nodes
 
 
     Element * e1 = new Resistor(0.1, 0, 1);
@@ -33,6 +35,57 @@ int main(int argc, char *argv[])
     Element * e3 = new EMF(5, 1, 0); // The plus is connected to the first node
     Element * e4 = new Inductor(8, 0, 2);
     float frequency = 0.5;
+
+//--------------------------------------------------------//
+    std::vector <Element*> elements= {e1, e2, e3, e4};
+
+    Circuit* my_circ = new Circuit();
+
+    for(int i  = 0; i < elements.size(); i++)
+      my_circ->AddElement(elements[i]);
+
+
+
+//    my_circ->Print();
+
+    number_nodes = my_circ->GetNumberNodes();
+
+
+
+    NodalMatrixSolver *my_solver = new NodalMatrixSolver(*my_circ);
+    my_solver->PrintElementsBetween(number_nodes);
+
+    arma::cx_mat A(number_nodes, number_nodes);
+    A = my_solver->constructA(number_nodes);
+
+    for(int i = 0; i < number_nodes; i++)
+    {
+        for(int j = 0; j < number_nodes; j++)
+            std::cout << A(i,j) << " ";
+        std::cout << std::endl;
+    }
+
+/*    arma::cx_mat A(number_nodes, number_nodes);
+
+    NodalMatrixSolver *my_solver = new NodalMatrixSolver(*my_circ);
+
+    my_solver->PrintElementsBetween(number_nodes);
+
+    std::cout << "number_nodes: " << number_nodes << std::endl;
+    A = my_solver->constructA(number_nodes);
+
+    std::cout << "I am here!" << std::endl;
+    for(int i = 0; i < number_nodes; i++)
+    {
+        for(int j = 0; j < number_nodes; j++)
+            std::cout << A(i,j) << " ";
+        std::cout << std::endl;
+    }*/
+
+
+
+
+
 
 
     //Element * e4 = new EMF(10, 0, 1);
@@ -72,20 +125,52 @@ int main(int argc, char *argv[])
        for (int i = 0; i < elements.size(); i++)
            elements[i]-> Print(); */
 
-    std::vector <Element*> elements= {e1, e2, e3, e4};
+    //--------------------------------------------------------//
+
+        //___________________________________________________________________//
+    //         std::vector<std::vector<std::vector<Element*>>> ElementsBetween;
+    //         for(int i = 0; i <= number_nodes; i++)
+    //         {
+    //             std::vector<std::vector<Element *>> row;
+
+    //             for(int j = 0; j <= number_nodes; j++)
+    //                row.push_back(my_circ->FindElements(i,j));
+
+    //             ElementsBetween.push_back(row); // Why not  ElementsBetween->push_back(row); ?
+    //         }
+
+        //__________________________________________________________________//
+
+    //        std::cout << "From main: " << std::endl;
+    //        ElementsBetween[2][1][0]->Print();
+
+
+
+     //---------------------------------------------------------------------//
+
+
+
+
+
+
+
+
+
+//____________________________________________________//
+/*    std::vector <Element*> elements1= {e1, e2, e3, e4};
     //Circuit *my_circ = new Circuit(elements); //It is for the example with old
     //constructor
-    Circuit *my_circ = new Circuit();
+    Circuit *my_circ1 = new Circuit();
     //my_circ->Print();
 
    // std::cout << "After adding an element: " << std::endl;
-    for(int i  = 0; i < elements.size(); i++)
-      my_circ->AddElement(elements[i]);
+    for(int i  = 0; i < elements1.size(); i++)
+      my_circ1->AddElement(elements1[i]);
 
     //my_circ->AddElement(e4);
-    my_circ->Print();
+    my_circ1->Print();*/
 
-
+//______________________________________________________//
     //  Make this work
     // my_circ->AddElement(e1);
     // my_circ->AddElement(e2);
@@ -106,23 +191,12 @@ int main(int argc, char *argv[])
 
 //   Number of PushBack should be equal to the number of elements in the matrix to keep
 //    its shape.
-     std::vector<std::vector<std::vector<Element*>>> ElementsBetween;
-     for(int i = 0; i < number; i++)
-     {
-         std::vector<std::vector<Element *>> row;
 
-         for(int j = 0; j < number; j++)
-             row.push_back(my_circ->FindElements(i,j));
 
-         ElementsBetween.push_back(row); // Why not  ElementsBetween->push_back(row); ?
-     }
-
-    std::cout << "Test:" << std::endl;
-//    ElementsBetween[1][1][0]->Print();
-    ElementsBetween[1][0][0]->Print();
+//    ElementsBetween[1][0][0]->Print();
 //    ElementsBetween[1][1][0]->Print();
 //    std::cout << ElementsBetween[1][1].size() << std::endl;
-    std::cout << ElementsBetween[1][0].size() << std::endl;
+//    std::cout << ElementsBetween[1][0].size() << std::endl;
 //    std::cout << ElementsBetween[1][0].size() << std::endl;
 //    std::cout << ElementsBetween[1][1].size() << std::endl;
 

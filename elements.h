@@ -42,9 +42,9 @@ public:
 
 class Resistor : public Element {
      int node1, node2;
-     double resistance;
+     float resistance;
 public:
-     Resistor(double number_resist, int number1, int number2);
+     Resistor(float number_resist, int number1, int number2);
 
      virtual void Print();
 
