@@ -38,9 +38,12 @@ std::complex<float> Resistor::GetInverseImpedance(float frequency)
     return  inv_imped;
 }
 
+float Resistor::GetVoltage()
+{
+    return 0;
+}
 
-
-EMF::EMF(double number_voltage, int number1, int number2)
+EMF::EMF(float number_voltage, int number1, int number2)
 {
     node1 = number1;
     node2 = number2;
@@ -75,8 +78,13 @@ std::complex<float> EMF::GetInverseImpedance(float frequency)
     return inv_imped;
 }
 
+float EMF::GetVoltage()
+{
+    return voltage;
+}
 
-Capacitor::Capacitor(double number_conductance, int number1, int number2){
+
+Capacitor::Capacitor(float number_conductance, int number1, int number2){
     node1 = number1;
     node2 = number2;
     conductance = number_conductance;
@@ -111,7 +119,13 @@ std::complex<float> Capacitor::GetInverseImpedance(float frequency)
 }
 
 
-Inductor::Inductor(double number_inductance, int number1, int number2)
+float Capacitor::GetVoltage()
+{
+    return 0;
+}
+
+
+Inductor::Inductor(float number_inductance, int number1, int number2)
 {
     node1 = number1;
     node2 = number2;
@@ -147,3 +161,7 @@ std::complex<float> Inductor::GetInverseImpedance(float frequency)
     return inv_imped;
 }
 
+float Inductor::GetVoltage()
+{
+    return 0;
+}

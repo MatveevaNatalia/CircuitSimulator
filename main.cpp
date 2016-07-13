@@ -9,7 +9,7 @@
 #include "elementfactory.h"
 
 //using namespace std;
-using namespace arma;
+//using namespace arma;
 
 
 
@@ -30,16 +30,28 @@ int main(int argc, char *argv[])
     int number_nodes; // number of nodes
     int number_voltages;
 
-    Element * e1 = new Resistor(0.1, 0, 1);
-    Element * e2 = new Capacitor(10, 1, 2);
-    Element * e3 = new EMF(5, 1, 0); // The plus is connected to the first node
-    Element * e4 = new Inductor(8, 0, 2);
-    Element * e5 = new EMF(7, 2, 0);
+/*    Vin 3 0 Symbolic
+    R2 3 2 1000
+    R1 1 0 1000
+    C1 1 0 1E-6
+    C2 2 1 10E-6
+    L1 1 0 0.001*/
+
+//    https://www.swarthmore.edu/NatSci/echeeve1/Ref/mna/MNA_All.html
+//  Example 6
+
+
+    Element * e1 = new Resistor(1000, 1, 0);
+    Element * e2 = new Resistor(1000, 3, 2);
+    Element * e3 = new Capacitor(0.000001, 1, 0);
+    Element * e4 = new Capacitor(0.00001, 2, 1); // The plus is connected to the first node
+    Element * e5 = new Inductor(0.001, 1, 0);
+    Element * e6 = new EMF(1.0, 3, 0);
 
     float frequency = 0.5;
 
 //--------------------------------------------------------//
-    std::vector <Element*> elements= {e1, e2, e3, e4, e5};
+    std::vector <Element*> elements= {e1, e2, e3, e4, e5, e6};
 
     Circuit* my_circ = new Circuit();
 
@@ -57,17 +69,17 @@ int main(int argc, char *argv[])
     NodalMatrixSolver *my_solver = new NodalMatrixSolver(*my_circ);
     my_solver->PrintElementsBetween(number_nodes);
 
-    arma::cx_mat A(number_nodes, number_nodes);
-    A = my_solver->constructA(number_nodes);
+    arma::cx_mat G(number_nodes, number_nodes);
+    G = my_solver->constructG(*my_circ, frequency);
 
     for(int i = 0; i < number_nodes; i++)
     {
         for(int j = 0; j < number_nodes; j++)
-            std::cout << A(i,j) << " ";
+            std::cout << G(i,j) << " ";
         std::cout << std::endl;
     }
 
-/*    arma::cx_mat B(number_nodes, number_voltages);
+    arma::cx_mat B(number_nodes, number_voltages);
     B = my_solver->constructB(*my_circ);
 
     for(int i = 0; i < number_nodes; i++)
@@ -75,9 +87,42 @@ int main(int argc, char *argv[])
         for(int j = 0; j < number_voltages; j++)
             std::cout << B(i,j) << " ";
         std::cout << std::endl;
-    }*/
+    }
+
+    arma::cx_mat RHS(number_nodes+number_voltages, 1);
+    RHS = my_solver->constructRHS(*my_circ);
+
+    for(int i = 0; i <(number_nodes + number_voltages); i++)
+        std::cout << RHS(i,0) <<'\n';
+
+    my_solver->JoinMatrix(*my_circ, G, B);
+
+    arma::cx_mat A(number_nodes+number_voltages, number_nodes+number_voltages);
+
+    A = my_solver->JoinMatrix(*my_circ, G, B);
+
+    for(int i = 0; i < number_nodes+number_voltages; i++)
+    {
+        for(int j = 0; j<number_nodes+number_voltages; j++)
+        {
+            std::cout << A(i,j) << " ";
+        }
+        std::cout << '\n';
+    }
+
+    arma::cx_vec Y(number_nodes+number_voltages);
+    Y = my_solver->System_Solve(A, RHS);
+    
+    std::cout <<"Solution of system AY=X";
+    for(int i = 0; i < number_nodes+number_voltages; i++)
+    {
+        std::cout << Y(i) << '\n';
+    }
+    
 
 
+    
+    
 /*    arma::cx_mat A(number_nodes, number_nodes);
 
     NodalMatrixSolver *my_solver = new NodalMatrixSolver(*my_circ);

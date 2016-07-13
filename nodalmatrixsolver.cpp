@@ -36,12 +36,13 @@ void NodalMatrixSolver::PrintElementsBetween(int nodesnumber)
 
 
 
-arma::cx_mat NodalMatrixSolver::constructA(int nodesnumber)
+arma::cx_mat NodalMatrixSolver::constructG(Circuit & my_circ, float frequency)
 {
-    arma::cx_mat A(nodesnumber, nodesnumber, arma::fill::zeros);
+    int nodesnumber = my_circ.GetNumberNodes();
+    arma::cx_mat G(nodesnumber, nodesnumber, arma::fill::zeros);
     int elementsnumber;
 
-    double frequency = 0.5; // A Get method must be added to obtain frequency
+//    double frequency = 0.5; // A Get method must be added to obtain frequency
     std::complex<double> invimped; // Why float does not work here?
 
     for(int i = 1; i <= nodesnumber; i++)
@@ -50,30 +51,30 @@ arma::cx_mat NodalMatrixSolver::constructA(int nodesnumber)
         for(int k = 0; k < elementsnumber; k++)
         {
             invimped = ElementsBetween[i][0][k]-> GetInverseImpedance(frequency);
-            A(i-1,i-1) = A(i-1,i-1) + invimped;
+            G(i-1,i-1) = G(i-1,i-1) + invimped;
         }
             for(int j = 1; j <= nodesnumber; j++)
             {
 
                 if(i != j)
                 {
-                    //ElementsBetween[1][2][0]->Print();
+
                     elementsnumber = ElementsBetween[i][j].size();
 
                     for(int k = 0; k < elementsnumber; k++)
                     {
                         invimped = ElementsBetween[i][j][k]-> GetInverseImpedance(frequency);
-                        A(i-1,i-1) = A(i-1,i-1) + invimped;
-                        A(i-1,j-1) = A(i-1,j-1) - invimped;
+                        G(i-1,i-1) = G(i-1,i-1) + invimped;
+                        G(i-1,j-1) = G(i-1,j-1) - invimped;
                     }
                 }
             }
 
     }
-    return A;
+    return G;
 }
 
-arma::cx_mat constructB(Circuit & my_circ)
+arma::cx_mat NodalMatrixSolver::constructB(Circuit & my_circ)
 {
     int nodesnumber = my_circ.GetNumberNodes();
     int voltagenumber = my_circ.GetNumberVoltage();
@@ -109,16 +110,52 @@ arma::cx_mat constructB(Circuit & my_circ)
     return B;
 }
 
+arma::cx_mat NodalMatrixSolver::constructRHS(Circuit & my_circ)
+{
+    int nodesnumber = my_circ.GetNumberNodes();
+    int voltagenumber = my_circ.GetNumberVoltage();
+    arma::cx_mat RHS((nodesnumber+ voltagenumber),1, arma::fill::zeros);
+
+    std::vector<Element*> Voltages;
+
+    Voltages = my_circ.FindVoltages();
+
+    float voltage;
+
+    for(int i = 0; i < voltagenumber; i++)
+    {
+        voltage = Voltages[i]->GetVoltage();
+        RHS(i+nodesnumber, 0) = voltage;
+    }
+
+    return RHS;
+}
 
 
+arma::cx_mat NodalMatrixSolver::JoinMatrix(Circuit & my_circ, arma::cx_mat G, arma::cx_mat B)
+{
+    int voltagenumber = my_circ.GetNumberVoltage();
 
+    arma::cx_mat X = join_rows(G,B);
 
+    arma::cx_mat C = strans(B);
+    arma::cx_mat D(voltagenumber, voltagenumber, arma::fill::zeros);
 
+    arma::cx_mat Y = join_rows(C, D);
 
+    arma::cx_mat A = join_cols(X,Y);
 
+//    int n_col = A.n_cols;
+//    int n_row = A.n_rows;
 
+    return A;
+}
 
-
+arma::cx_vec NodalMatrixSolver::System_Solve(arma::cx_mat A, arma::cx_mat RHS)
+{
+    arma::cx_vec Y  = solve(A, RHS);
+    return Y;
+}
 
 
 

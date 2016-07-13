@@ -27,6 +27,8 @@ public:
 
     virtual std::complex<float> GetInverseImpedance(float frequency) = 0;
 
+    virtual float GetVoltage() = 0;
+
 
     // GetFirstNode() and GetSecondNode() are exactly the same for all elements.
     // Do we realy need the virtual functions for them - yes, because Eelement itself
@@ -55,46 +57,49 @@ public:
      virtual bool IsVoltage();
 
      virtual std::complex<float> GetInverseImpedance(float frequency);
+
+     virtual float GetVoltage();
 };
 
 class EMF : public Element {
     int node1, node2;
-    double voltage;
+    float voltage;
 public:
-    EMF(double number_voltage, int number1, int number2);
+    EMF(float number_voltage, int number1, int number2);
     virtual void Print();
     virtual int GetFirstNode();
     virtual int GetSecondNode();
     virtual bool IsVoltage();
     virtual std::complex<float> GetInverseImpedance(float frequency);
+    virtual float GetVoltage();
 };
 
 class Capacitor : public Element {
     int node1, node2;
-    double conductance;
+    float conductance;
 public:
-    Capacitor(double number_conductance, int number1, int number2);
+    Capacitor(float number_conductance, int number1, int number2);
     virtual void Print();
     virtual int GetFirstNode();
     virtual int GetSecondNode();
     virtual bool IsVoltage();
-
     virtual std::complex<float> GetInverseImpedance(float frequency);
+    virtual float GetVoltage();
 };
 
 class Inductor : public Element
 {
     int node1, node2;
-    double inductance;
+    float inductance;
 public:
-    Inductor(double number_inductance, int number1, int number2);
+    Inductor(float number_inductance, int number1, int number2);
      virtual void Print();
 
     virtual int GetFirstNode();
     virtual int GetSecondNode();
     virtual bool IsVoltage();
-
     virtual std::complex<float> GetInverseImpedance(float frequency);
+    virtual float GetVoltage();
 
 };
 
