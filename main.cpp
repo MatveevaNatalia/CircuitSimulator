@@ -24,8 +24,40 @@
 //  It must return the vector of voltage
 //}
 
+
 int main(int argc, char *argv[])
 {
+    float frequency = 0.5;
+    ElementFactory* my_factory;
+
+    std::vector <Element*> elements;
+
+
+    std::fstream filestr("../Circuits/input.txt", std::fstream::in | std::fstream::out);
+
+    if (filestr.is_open())
+    {
+         while (!filestr.eof())
+        {
+             Element* element_temp;
+            std::string line("");
+            getline(filestr, line);
+
+            if(!filestr.eof())
+            {
+                element_temp = my_factory->CreateElement(line);
+                element_temp->Print();
+                elements.push_back(element_temp);
+            }
+         }
+    }
+    else
+    {
+      std::cout << "Error opening input.txt file";
+    }
+    filestr.close();
+
+
 
     int number_nodes; // number of nodes
     int number_voltages;
@@ -41,17 +73,21 @@ int main(int argc, char *argv[])
 //  Example 6
 
 
-    Element * e1 = new Resistor(1000, 1, 0);
+
+
+
+
+/*    Element * e1 = new Resistor(1000, 1, 0);
     Element * e2 = new Resistor(1000, 3, 2);
     Element * e3 = new Capacitor(0.000001, 1, 0);
     Element * e4 = new Capacitor(0.00001, 2, 1); // The plus is connected to the first node
     Element * e5 = new Inductor(0.001, 1, 0);
     Element * e6 = new EMF(1.0, 3, 0);
 
-    float frequency = 0.5;
+
 
 //--------------------------------------------------------//
-    std::vector <Element*> elements= {e1, e2, e3, e4, e5, e6};
+    std::vector <Element*> elements= {e1, e2, e3, e4, e5, e6};*/
 
     Circuit* my_circ = new Circuit();
 
@@ -113,7 +149,7 @@ int main(int argc, char *argv[])
     arma::cx_vec Y(number_nodes+number_voltages);
     Y = my_solver->System_Solve(A, RHS);
     
-    std::cout <<"Solution of system AY=X";
+    std::cout <<"Solution of system AY=Z" << '\n';
     for(int i = 0; i < number_nodes+number_voltages; i++)
     {
         std::cout << Y(i) << '\n';
