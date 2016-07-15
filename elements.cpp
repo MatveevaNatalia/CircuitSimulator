@@ -11,10 +11,11 @@ Resistor::Resistor(float number_resist, int number1, int number2)
 
 void Resistor::Print()
 {
-     std::cout << "Resistor parameters: " << std::endl;
+     std::cout << "Resistor: " << std::endl;
      std::cout << "The first node: " << node1 << std::endl;
      std::cout << "The second node: " << node2 << std::endl;
      std::cout << "Resistance: " << resistance << std::endl;
+     std::cout << "____________________" << std::endl;
 }
 
 int Resistor::GetFirstNode()
@@ -51,10 +52,11 @@ EMF::EMF(float number_voltage, int number1, int number2)
 }
 
 void EMF::Print(){
-    std::cout << "EMF parameters: " << std::endl;
+    std::cout << "EMF: " << std::endl;
     std::cout << "The first node: " << node1 << std::endl;
     std::cout << "The second node: " << node2 << std::endl;
     std::cout << "Voltage: " << voltage << std::endl;
+    std::cout << "____________________" << std::endl;
 }
 
 int EMF::GetFirstNode(){
@@ -91,10 +93,11 @@ Capacitor::Capacitor(float number_conductance, int number1, int number2){
 }
 
 void Capacitor::Print(){
-    std::cout << "Capacitor parameters: " << std::endl;
+    std::cout << "Capacitor: " << std::endl;
     std::cout << "The first node: " << node1 << std::endl;
     std::cout << "The second node: " << node2 << std::endl;
     std::cout << "Conductance: " << conductance << std::endl;
+    std::cout << "____________________" << std::endl;
 }
 
 int Capacitor::GetFirstNode(){
@@ -134,10 +137,11 @@ Inductor::Inductor(float number_inductance, int number1, int number2)
 
 void Inductor::Print()
 {
-    std::cout << "Inductor parameters: " << std::endl;
+    std::cout << "Inductor: " << std::endl;
     std::cout << "The first node: " << node1 << std::endl;
     std::cout << "The second node: " << node2 << std::endl;
     std::cout << "Inductance: " << inductance << std::endl;
+    std::cout << "____________________" << std::endl;
 }
 
 int Inductor::GetFirstNode()

@@ -2,9 +2,11 @@
 
 NodalMatrixSolver::NodalMatrixSolver(Circuit & my_circ)
 {
-    std::cout << "From NodalMatrixSolver " << '\n';
+//    std::cout << "From NodalMatrixSolver " << '\n';
     int number = my_circ.GetNumberNodes();
-    std::cout << "number of nodes " << number << '\n';
+    std::cout << "***************************" << std::endl;
+    std::cout << "NUMBER OF NODES: " << number << '\n';
+    std::cout << "***************************" << std::endl;
     for(int i = 0; i <= number; i++)
     {
         std::vector<std::vector<Element *>> row;
@@ -19,15 +21,16 @@ NodalMatrixSolver::NodalMatrixSolver(Circuit & my_circ)
 
 void NodalMatrixSolver::PrintElementsBetween(int nodesnumber)
 {
-    std::cout << "From PrintElementsBetween " << '\n';
+//    std::cout << "From PrintElementsBetween " << '\n';
     int elementsnumber;
       for(int i = 0; i <= nodesnumber; i++)
       {
-          for(int j = 0; j <= nodesnumber; j++)
+          for(int j = i+1; j <= nodesnumber; j++)
           {
               std::cout << "Nodes " << i << " and " << j << " ";
               elementsnumber = ElementsBetween[i][j].size();
-              std::cout << "has " << elementsnumber << " elements in between " <<'\n';
+              std::cout << "has " << elementsnumber << " elements in between: " <<'\n';
+              std::cout << "****************************************" << std::endl;
               for(int k = 0; k < elementsnumber; k++)
                   ElementsBetween[i][j][k]->Print();
            }
@@ -42,8 +45,7 @@ arma::cx_mat NodalMatrixSolver::constructG(Circuit & my_circ, float frequency)
     arma::cx_mat G(nodesnumber, nodesnumber, arma::fill::zeros);
     int elementsnumber;
 
-//    double frequency = 0.5; // A Get method must be added to obtain frequency
-    std::complex<double> invimped; // Why float does not work here?
+    std::complex<double> invimped;
 
     for(int i = 1; i <= nodesnumber; i++)
     {
@@ -55,12 +57,9 @@ arma::cx_mat NodalMatrixSolver::constructG(Circuit & my_circ, float frequency)
         }
             for(int j = 1; j <= nodesnumber; j++)
             {
-
                 if(i != j)
                 {
-
                     elementsnumber = ElementsBetween[i][j].size();
-
                     for(int k = 0; k < elementsnumber; k++)
                     {
                         invimped = ElementsBetween[i][j][k]-> GetInverseImpedance(frequency);

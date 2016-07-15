@@ -3,9 +3,13 @@
 
 void Circuit::Print()
 {
-    for(int i = 0; i < elements.size(); i++)
+    int number_elements = elements.size();
+
+    std::cout << number_elements << " ELEMENTS IN THE CIRCUIT: " << std::endl;
+    std::cout << "**************************" << std::endl;
+    for(int i = 0; i < number_elements; i++)
     {
-        std::cout << "From Circuit: " << std::endl;
+        std::cout << i+1 << '\n';
         elements[i]->Print();
     }
 }
@@ -18,7 +22,6 @@ void Circuit::AddElement(Element* new_element)
 
 std::vector <Element*> Circuit::FindElements(int first_node, int second_node)
 {
-    //Element* zero_elem = NULL;
     std::vector<Element *> found_elements;
     int node1_temp, node2_temp;
     for(int i = 0; i < elements.size(); i++)
@@ -30,11 +33,6 @@ std::vector <Element*> Circuit::FindElements(int first_node, int second_node)
             found_elements.push_back(elements[i]);
         if ( node2_temp == first_node && node1_temp == second_node)
                     found_elements.push_back(elements[i]);
-/*        else if( node2_temp == first_node && node1_temp == second_node)
-            found_elements.push_back(elements[i]);
-        else
-            found_elements.push_back(NULL);*/
-
     }
     return found_elements;
 }
@@ -49,12 +47,6 @@ std::vector <Element*> Circuit::FindVoltages()
     }
     return VoltageList;
 }
-
-
-/*int Circuit::GetNumberElements()
-{
-    return elements.size();
-}*/
 
 int Circuit::GetNumberNodes()
 {

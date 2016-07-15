@@ -51,3 +51,17 @@ Element * ElementFactory::CreateElement(std::string line)
 
     return ee;
 }
+
+
+float ElementFactory::GetFrequency(std::string line)
+{
+    float frequency;
+    std::stringstream ss(line);
+    std::string item;
+    getline(ss, item, ' ');
+    getline(ss, item, ' ');
+    frequency = std::stof(item);
+
+    return frequency;
+}
+
