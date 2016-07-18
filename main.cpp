@@ -88,11 +88,11 @@ int main(int argc, char *argv[])
     for(int i = 0; i <(number_nodes + number_voltages); i++)
         std::cout << RHS(i,0) <<'\n';
 
-    my_solver->JoinMatrix(*my_circ, G, B); */
+    my_solver->JoinMatrix(*my_circ, G, B);
 
     arma::cx_mat A(number_nodes+number_voltages, number_nodes+number_voltages);
 
-    A = my_solver->JoinMatrix(*my_circ, G, B)
+    A = my_solver->JoinMatrix(*my_circ, G, B);
 
     for(int i = 0; i < number_nodes+number_voltages; i++)
     {
