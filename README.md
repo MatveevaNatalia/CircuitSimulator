@@ -4,6 +4,8 @@ C++ tool for determining electric circuit's node voltages and currents using Mod
 
 https://www.swarthmore.edu/NatSci/echeeve1/Ref/mna/MNA1.html
 
+The circuit can contain the independent voltage sources as well as inductors, capacitors and resistors.
+
 ##Requirements
 * Armadillo library: http://arma.sourceforge.net/ 
 
