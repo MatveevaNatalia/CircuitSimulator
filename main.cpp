@@ -8,11 +8,15 @@
 #include "nodalmatrixsolver.h"
 #include "elementfactory.h"
 
+
+
 int main(int argc, char *argv[])
 {
     float frequency;
     ElementFactory* my_factory;
     std::vector <Element*> elements;
+
+    std::cout << "Reading the input file and creating the circuit ... " << std::endl;
 
     std::fstream filestr("input.txt", std::fstream::in | std::fstream::out);
 
@@ -44,6 +48,8 @@ int main(int argc, char *argv[])
     }
     filestr.close();
 
+    std::cout << "Constructing the system ... " << std::endl;
+
     int number_nodes;
     int number_voltages;
 
@@ -57,41 +63,20 @@ int main(int argc, char *argv[])
     number_nodes = my_circ->GetNumberNodes();
     number_voltages = my_circ->GetNumberVoltage();
 
-
     NodalMatrixSolver *my_solver = new NodalMatrixSolver(*my_circ);
     my_solver->PrintElementsBetween(number_nodes);
-
 
     arma::cx_mat G(number_nodes, number_nodes);
     G = my_solver->constructG(*my_circ, frequency);
 
-    for(int i = 0; i < number_nodes; i++)
-    {
-        for(int j = 0; j < number_nodes; j++)
-            std::cout << G(i,j) << " ";
-        std::cout << std::endl;
-    }
-
     arma::cx_mat B(number_nodes, number_voltages);
     B = my_solver->constructB(*my_circ);
-
-    for(int i = 0; i < number_nodes; i++)
-    {
-        for(int j = 0; j < number_voltages; j++)
-            std::cout << B(i,j) << " ";
-        std::cout << std::endl;
-    }
-
-    arma::cx_mat RHS(number_nodes+number_voltages, 1);
-    RHS = my_solver->constructRHS(*my_circ);
-
-    for(int i = 0; i <(number_nodes + number_voltages); i++)
-        std::cout << RHS(i,0) <<'\n';
 
     my_solver->JoinMatrix(*my_circ, G, B);
 
     arma::cx_mat A(number_nodes+number_voltages, number_nodes+number_voltages);
 
+    std::cout << "Matrix A: " << "\n";
     A = my_solver->JoinMatrix(*my_circ, G, B);
 
     for(int i = 0; i < number_nodes+number_voltages; i++)
@@ -103,14 +88,28 @@ int main(int argc, char *argv[])
         std::cout << '\n';
     }
 
+    std::cout << "Vector z: " << "\n";
+
+    arma::cx_mat RHS(number_nodes+number_voltages, 1);
+    RHS = my_solver->constructRHS(*my_circ);
+
+    for(int i = 0; i <(number_nodes + number_voltages); i++)
+        std::cout << RHS(i,0) <<'\n';
+
+
+
+    std::cout << "Solving the system ... " << std::endl;
+
     arma::cx_vec Y(number_nodes+number_voltages);
     Y = my_solver->System_Solve(A, RHS);
     
-    std::cout <<"Solution of system AY=Z" << '\n';
+    std::cout <<"Solution:" << '\n';
     for(int i = 0; i < number_nodes+number_voltages; i++)
     {
         std::cout << Y(i) << '\n';
     }
     
+
+
     return 0;
 }

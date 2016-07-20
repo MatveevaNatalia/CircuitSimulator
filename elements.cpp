@@ -161,7 +161,7 @@ bool Inductor::IsVoltage()
 
 std::complex<float> Inductor::GetInverseImpedance(float frequency)
 {
-    std::complex<float> inv_imped(0,1.0/(frequency*inductance));
+    std::complex<float> inv_imped(0,-1.0/(frequency*inductance));
     return inv_imped;
 }
 

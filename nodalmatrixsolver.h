@@ -16,7 +16,7 @@ public:
     arma::cx_vec System_Solve(arma::cx_mat A, arma::cx_mat RHS);
 
 protected:
-    std::vector<std::vector<std::vector<Element*>>> ElementsBetween;
+    std::vector<std::vector<std::vector<Element*> > > ElementsBetween;
 
 };
 

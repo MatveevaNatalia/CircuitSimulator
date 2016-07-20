@@ -15,5 +15,5 @@ HEADERS += \
     elementfactory.h \
     nodalmatrixsolver.h
 
-
+LIBS += -llapack -lblas -larmadillo
 
