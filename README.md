@@ -8,7 +8,7 @@ The circuit can contain the independent voltage sources as well as inductors, ca
 
 ##Requirements
 * Armadillo library: http://arma.sourceforge.net/ 
-
+ 
 ## Input
 The input characteristics of the circuit should be written in the file input.txt, which
 has the following form:
@@ -27,3 +27,14 @@ has the following form:
 
 The function SystemSolve returns the vector (v_1,..v_n, i_1,..,i_m), where
 v_1,..,v_n are voltages at each node and i_1, ..., i_m are currents throw each voltage source.
+
+## Compilation
+* qmake
+* make
+
+## Tests
+File test.cpp contains the tests. 
+
+In order to compile test.cpp:
+* qmake -config test
+* make
