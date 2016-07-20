@@ -1,6 +1,6 @@
 # CircuitSimulator
 
-C++ tool for determining electric circuit's node voltages and currents using Modified Nodal Analysis:
+C++ tool for determining electronic circuit's node voltages and currents using Modified Nodal Analysis:
 
 https://www.swarthmore.edu/NatSci/echeeve1/Ref/mna/MNA1.html
 
