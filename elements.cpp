@@ -1,6 +1,4 @@
 #include "elements.h"
-//#include <iostream>
-//#include <complex>
 
 Resistor::Resistor(float number_resist, int number1, int number2)
 {

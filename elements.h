@@ -4,41 +4,18 @@
 #include <iostream>
 #include <vector>
 #include <armadillo>
-
 #include <complex>
 
 class Element {
 public:
-    virtual void Print() = 0; // Pure virtual method; the object Element can't be created
-   // virtual void Print(){} // In this case the object Element can be created
-    // Print() is not a constructor! Why it affects if the object Element
-    //can be created or not ???
-
-
-
-    // The if a virtual function present here it must present also in avery child
-    //class ????
-
-
+    virtual void Print() = 0;
     virtual int GetFirstNode() = 0;
     virtual int GetSecondNode() = 0;
-
     virtual bool IsVoltage() = 0;
 
     virtual std::complex<float> GetInverseImpedance(float frequency) = 0;
 
     virtual float GetVoltage() = 0;
-
-
-    // GetFirstNode() and GetSecondNode() are exactly the same for all elements.
-    // Do we realy need the virtual functions for them - yes, because Eelement itself
-    // does not know about Nodes at all
-
-//    int Print_test(){
-//        std::cout << " I am in class Element " << std::endl;
-//    }
-
-
 
 };
 
@@ -102,10 +79,5 @@ public:
     virtual float GetVoltage();
 
 };
-
-
-
-
-
 
 #endif // ELEMENTS_H

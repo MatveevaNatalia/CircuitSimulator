@@ -2,7 +2,6 @@
 
 NodalMatrixSolver::NodalMatrixSolver(Circuit & my_circ)
 {
-//    std::cout << "From NodalMatrixSolver " << '\n';
     int number = my_circ.GetNumberNodes();
     std::cout << "***************************" << std::endl;
     std::cout << "NUMBER OF NODES: " << number << '\n';
@@ -14,14 +13,13 @@ NodalMatrixSolver::NodalMatrixSolver(Circuit & my_circ)
         for(int j = 0; j <= number; j++)
             row.push_back(my_circ.FindElements(i,j));
 
-        ElementsBetween.push_back(row); // Why not  ElementsBetween->push_back(row); ?
+        ElementsBetween.push_back(row);
     }
 }
 
 
 void NodalMatrixSolver::PrintElementsBetween(int nodesnumber)
 {
-//    std::cout << "From PrintElementsBetween " << '\n';
     int elementsnumber;
       for(int i = 0; i <= nodesnumber; i++)
       {
@@ -143,9 +141,6 @@ arma::cx_mat NodalMatrixSolver::JoinMatrix(Circuit & my_circ, arma::cx_mat G, ar
     arma::cx_mat Y = join_rows(C, D);
 
     arma::cx_mat A = join_cols(X,Y);
-
-//    int n_col = A.n_cols;
-//    int n_row = A.n_rows;
 
     return A;
 }
