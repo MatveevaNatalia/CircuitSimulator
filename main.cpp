@@ -110,6 +110,7 @@ int main(int argc, char *argv[])
     }
     
 
-
+    delete my_circ;
+    delete my_solver;
     return 0;
 }

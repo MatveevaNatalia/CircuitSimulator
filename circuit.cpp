@@ -74,3 +74,21 @@ int Circuit::GetNumberVoltage()
     }
     return voltagenumber;
 }
+
+Circuit::~Circuit()
+{
+    for(int i = 0; i < elements.size(); i++)
+    {
+        delete elements[i];
+    }
+}
+
+
+
+
+
+
+
+
+
+

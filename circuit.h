@@ -25,6 +25,8 @@ public:
 
     int GetNumberVoltage();
 
+    ~Circuit();
+
 };
 
 #endif // CIRCUIT_H
